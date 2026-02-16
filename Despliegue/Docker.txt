@@ -1,0 +1,69 @@
+Construir imagen sobre DockerFile:
+
+sudo docker build -t spark-image .
+
+MASTER:
+
+sudo docker run -d \
+  --name spark-master \
+  -p 9090:8080 \
+  -p 7077:7077 \
+  -v /home/ec2-user/Tema3/apps:/opt/spark-apps \
+  -v /home/ec2-user/Tema3/data:/opt/spark-data \
+  -e SPARK_LOCAL_IP=0.0.0.0 \
+  -e SPARK_WORKLOAD=master \
+  spark-image
+
+WORKER: 
+
+sudo docker run -d \
+  --name spark-worker \
+  --net=host \
+  -e SPARK_MASTER=spark://172.31.16.159:7077 \
+  -e SPARK_WORKER_CORES=1 \
+  -e SPARK_WORKER_MEMORY=1G \
+  -e SPARK_DRIVER_MEMORY=1G \
+  -e SPARK_EXECUTOR_MEMORY=1G \
+  -e SPARK_WORKLOAD=worker \
+  -e SPARK_WORKER_HOST=172.31.24.200 \
+  -v /home/ec2-user/Tema3/apps:/opt/spark-apps \
+  -v /home/ec2-user/Tema3/data:/opt/spark-data \
+  spark-image
+
+SUBMIT:
+
+sudo docker run -it --rm   --net=host   -v /home/ec2-user/Tema3/apps:/opt/spark-apps -v ~/.aws:/root/.aws -e AWS_DEFAULT_REGION=us-east-1  spark-image   bash
+
+subir al bucket s3:
+spark-submit \
+  --master spark://172.31.16.159:7077 \
+  --deploy-mode client \
+  /opt/spark-apps/generar_y_preparar_s3_Comercio360.py \
+  --bucket hugito-quesadilla \
+  --prefix comercio360/JuanNestorFranco/raw \
+  --seed 123 \
+  --customers 500 \
+  --products 150 \
+  --stores 10 \
+  --orders 4000 \
+  --max-items 6
+
+Consultas
+spark-submit \
+  --deploy-mode client \
+  --packages org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.262 \
+  /opt/spark-apps/consulta1.py
+
+spark-submit \
+  --deploy-mode client \
+  --packages org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.262 \
+  /opt/spark-apps/consulta2.py
+
+spark-submit \
+  --deploy-mode client \
+  --packages org.apache.hadoop:hadoop-aws:3.3.4,com.amazonaws:aws-java-sdk-bundle:1.12.262 \
+  /opt/spark-apps/consulta3.py 
+  
+  spark-submit \
+  --deploy-mode client \
+  /opt/spark-apps/DAG.py
