@@ -1,4 +1,4 @@
-*** Trabajo Spark ***
+***Trabajo Spark***
 ---
 Para ejecutar este trabajo primero tenemos que preparar en las instancias EC2 docker
 
