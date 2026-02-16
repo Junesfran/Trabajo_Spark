@@ -33,5 +33,5 @@ Para el sistema de ficheros donde se sostiene todo
 ---
 ## ADVERTENCIA QUE DE ADVIERTE DE LO QUE DEBES SER ADVERTIDO
 <div align="center">
-  <img src="./diagrama_estado_israel.jpeg" alt="Texto alternativo" />
+  <img src="./imagen.jpeg" alt="Texto alternativo" />
 </div>
