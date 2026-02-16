@@ -29,3 +29,9 @@ Para el sistema de ficheros donde se sostiene todo
     nano start_scripts.sh
 
     cd ..
+
+---
+## ADVERTENCIA QUE DE ADVIERTE DE LO QUE DEBES SER ADVERTIDO
+<div align="center">
+  <img src="./diagrama_estado_israel.jpeg" alt="Texto alternativo" />
+</div>
